@@ -1,0 +1,6 @@
+[submodule "qmk"]
+	path = qmk
+	url = git@github.com:lupin-de-mid/qmk_firmware.git
+[submodule "lang_shift"]
+	path = layout/lang_shift
+	url = git@github.com:lupin-de-mid/lang_shift.git
