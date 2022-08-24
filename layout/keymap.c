@@ -121,7 +121,7 @@ LAYOUT( \
          RU1,     RU2,     RU3,     RU4,     RU5,     AG_MINS, \
          RH1,     RH2,     RH3,     RH4,     RH5,     RH6,                    \
 _______  ,RD1,     RD2,     RD3,     RD4,     RD5,     RD6,                    \
-TT_RED,  CMB_SPC, CMB_DOT, CMB_ALT, TG_RED \
+TG_RED,  CMB_SPC, CMB_DOT, CMB_ALT, TG_RED \
       ), \
       \
       /*-------------------------------------------------------------------------*/ \
@@ -166,10 +166,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         EN_S_N,    EN_S_M,   _______,   _______, _______, _______
         )
 
-
-
-
-
     LANG_TWO_LAYERS(
         L_RU, L_RU_S,
 
@@ -196,21 +192,21 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         )
 
 
-        [L_RED] = MY_layout(
-            // LEFT HALF
-            TG_RED,     KC_F7,     KC_F5, KC_F1,     KC_F1, KC_F9,
-            _______,    KC_HOME, KC_PGDN, KC_PGUP,  KC_END, _______,
-            _______,    KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, _______,
-            _______,    CT_LEFT, CT_DOWN, CT_UP,   CT_RGHT, _______, _______,
-                                 _______, _______, _______, _______, _______,
+    [L_RED] = MY_layout(
+        // LEFT HALF
+        TG_RED,     KC_F7,     KC_F5, KC_F1,     KC_F1, KC_F9,
+        _______,    KC_HOME, KC_PGDN, KC_PGUP,  KC_END, _______,
+        _______,    KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, _______,
+        _______,    CT_LEFT, CT_DOWN, CT_UP,   CT_RGHT, _______, _______,
+                             _______, _______, _______, _______, _______,
 
-                    // RIGHT HALF
-                    KC_F10,  KC_F2,   KC_F4,   KC_F6,   KC_F8, _______,
-                    CMB_RB2, CMB_RB1, CMB_LB1, CMB_LB2, _______, _______,
-                    CMB_LB4, CMB_LB3, CMB_RB3, CMB_RB4, _______, _______,
-                _______, KC_TAB,  _______, _______, _______, _______, _______,
-                _______, _______, _______, _______, _______
-            ),
+                // RIGHT HALF
+                KC_F10,  KC_F2,   KC_F4,   KC_F6,   KC_F8, _______,
+                CMB_RB2, CMB_RB1, CMB_LB1, CMB_LB2, _______, _______,
+                CMB_LB4, CMB_LB3, CMB_RB3, CMB_RB4, _______, _______,
+            _______, KC_TAB,  _______, _______, _______, _______, _______,
+            _______, _______, _______, _______, _______
+        ),
 
 };
 const uint8_t PROGMEM layermap[][3] = {
@@ -225,7 +221,7 @@ const uint8_t PROGMEM layermap[][3] = {
 };
 const uint8_t layermap_size = sizeof(layermap)/(sizeof(uint8_t) * 3);
 const uint16_t tt_keys[][3] = {
-//    { TT_CTJ, CT_J,  CT_BSLS }, // Убийство программы, если нажать три раза, то выдаёт Ctrl+\, что убивает безоговорочно.
+//   { TT_CTJ, CT_J,  CT_BSLS }, // Убийство программы, если нажать три раза, то выдаёт Ctrl+\, что убивает безоговорочно.
     { TT_RED,  MO_RED,  TG_RED },
 //    { TT_GREN, MO_GREN, TG_GREN },
 //    { TT_VIOL, MO_VIOL, TG_VIOL },
@@ -250,7 +246,7 @@ static void render_logo(void) {
 
 static void print_status_narrow(void) {
     // Print current mode
-    oled_write_P(PSTR("\n\n"), false);
+
     oled_write_ln_P(PSTR("MODE"), false);
     oled_write_ln_P(PSTR(""), false);
     if (keymap_config.swap_lctl_lgui) {
@@ -294,6 +290,9 @@ static void print_status_narrow(void) {
         case L_RU_S:
             oled_write_P(PSTR("RU_S"), false);
             break;
+        case L_RED:
+            oled_write_P(PSTR("RED"), false);
+            break;
         default:
             oled_write_P(PSTR("Undef"), false);
     }
@@ -310,6 +309,7 @@ oled_rotation_t oled_init_user(oled_rotation_t rotation) {
 }
 
 bool oled_task_user(void) {
+
     if (is_keyboard_master()) {
         print_status_narrow();
     } else {
