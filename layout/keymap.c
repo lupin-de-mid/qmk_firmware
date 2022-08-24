@@ -4,7 +4,9 @@
 #define CUSTOM_SAFE_RANGE SAFE_RANGE
 #include "lang_shift/include.h"
 
+#include <stdio.h>
 
+#include QMK_KEYBOARD_H
 #include "custom_hotkeys.h"
 #include "tt/include.h"
 enum sofle_layers {
@@ -209,17 +211,27 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         ),
 
 };
-const uint8_t PROGMEM layermap[][3] = {
-    [L_EN] = { 0, 0, 255 },
-    [L_EN_S] = { 0, 0, 192 },
 
-    [L_RU] = { 164, 255, 255 },
-    [L_RU_S] = { 164, 255, 192 },
+const rgblight_segment_t PROGMEM en_layer[] = RGBLIGHT_LAYER_SEGMENTS(
+    {0, RGBLED_NUM, HSV_CYAN}
+);
 
-    [L_RED] = { 0, 255, 210 },
+const rgblight_segment_t PROGMEM ru_layer[] = RGBLIGHT_LAYER_SEGMENTS(
+    {0, RGBLED_NUM, HSV_GOLD}
+);
 
-};
-const uint8_t layermap_size = sizeof(layermap)/(sizeof(uint8_t) * 3);
+const rgblight_segment_t PROGMEM red_layer[] = RGBLIGHT_LAYER_SEGMENTS(
+    {0, RGBLED_NUM, HSV_RED}
+);
+
+const rgblight_segment_t* const PROGMEM my_rgb_layers[] = RGBLIGHT_LAYERS_LIST(
+    en_layer,
+    en_layer,
+    ru_layer,
+    ru_layer,
+    red_layer
+);
+
 const uint16_t tt_keys[][3] = {
 //   { TT_CTJ, CT_J,  CT_BSLS }, // Убийство программы, если нажать три раза, то выдаёт Ctrl+\, что убивает безоговорочно.
     { TT_RED,  MO_RED,  TG_RED },
@@ -232,6 +244,26 @@ const uint16_t tt_keys[][3] = {
 //    { TT_NUCL, MO_NUCL, TG_NUCL },
 };
 const uint8_t tt_size = sizeof(tt_keys)/(sizeof(uint16_t) * 3);
+
+layer_state_t layer_state_set_user(layer_state_t state) {
+    rgblight_set_layer_state(0, layer_state_cmp(state, L_EN));
+    rgblight_set_layer_state(1, layer_state_cmp(state, L_EN_S));
+    rgblight_set_layer_state(2, layer_state_cmp(state, L_RU));
+    rgblight_set_layer_state(3, layer_state_cmp(state, L_RU_S));
+    rgblight_set_layer_state(4, layer_state_cmp(state, L_RED));
+    return state;
+}
+
+layer_state_t default_layer_state_set_user(layer_state_t state) {
+    rgblight_set_layer_state(0, layer_state_cmp(state, L_EN));
+    return state;
+}
+
+void keyboard_post_init_user(void) {
+    // Enable the LED layers
+    rgblight_layers = my_rgb_layers;
+}
+
 #ifdef OLED_ENABLE
 
 static void render_logo(void) {

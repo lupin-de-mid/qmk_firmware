@@ -14,6 +14,8 @@ COMMAND_ENABLE = no
 
 QMK_SETTINGS = no
 
-VIA_ENABLE = yes
+VIA_ENABLE = no;
+
+RGBLIGHT_ENABLE = yes
 
 LTO_ENABLE = yes
