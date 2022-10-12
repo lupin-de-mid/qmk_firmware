@@ -3,10 +3,7 @@
 #include "arbitrary_keycode/include.h"
 #define CUSTOM_SAFE_RANGE SAFE_RANGE
 #include "lang_shift/include.h"
-
-#include <stdio.h>
-
-#include QMK_KEYBOARD_H
+//#include "combo/include.h"
 #include "custom_hotkeys.h"
 #include "tt/include.h"
 enum sofle_layers {
@@ -15,11 +12,16 @@ enum sofle_layers {
     L_RU,
     L_RU_S,
     L_RED,
+    L_GREEN
 };
 
 #define TG_RED TG(L_RED)
 #define MO_RED MO(L_RED)
 #define TT_RED (TT_000 + L_RED)
+
+#define TG_GREEN TG(L_GREEN)
+#define MO_GREEN MO(L_GREEN)
+#define TT_GREEN (TT_001 + L_GREEN)
 
 //remap order of buutons from left right to lines
 #define MY_layout( \
@@ -78,7 +80,7 @@ LAYOUT( \
 #define CMB_SPC KC_SPC
 #define CMB_DQUE AG_COLN
 
-
+#define CMB_TEST CMB_000
 //Ctrl keys
 #define CT_LEFT LCTL(KC_LEFT)
 #define CT_UP LCTL(KC_UP)
@@ -113,33 +115,33 @@ LAYOUT( \
 /*-------------------------------------------------------------------------*/ \
       [L_DEFAULT] = MY_layout(  \
 /* LEFT HALF */ \
-        KC_ESC,  CMB_PLS, CMB_SCL, CMB_GRV, CMB_CLN, CMB_EQL, \
-        AG_UNDS, LU1,     LU2,     LU3,     LU4,     LU5,    \
-        CMB_DQUE, LH1,     LH2,     LH3,     LH4,     LH5,   \
-        EN_QUOT, LD1,     LD2,     LD3,     LD4,     LD5,   _______, \
-                        CMB_CTL,  CMB_LAN, CMB_BSP, CMB_SFT, CMB_ENT, \
+        KC_ESC,  CMB_PLS, CMB_SCL,  CMB_GRV, CMB_CLN, CMB_EQL, \
+        AG_UNDS,     LU1,     LU2,      LU3,     LU4,     LU5,    \
+        CMB_DQUE,    LH1,     LH2,      LH3,     LH4,     LH5,   \
+        EN_QUOT,     LD1,     LD2,      LD3,     LD4,     LD5,   _______,      \
+                 CMB_CTL,  CMB_LAN, CMB_BSP, CMB_SFT, CMB_ENT, \
         /* RIGHT HALF */ \
          CMB_ASR, CMB_EXL,CMB_QUE, EN_HASH, AG_SLSH, CT_Z, \
-         RU1,     RU2,     RU3,     RU4,     RU5,     AG_MINS, \
-         RH1,     RH2,     RH3,     RH4,     RH5,     RH6,                    \
-_______  ,RD1,     RD2,     RD3,     RD4,     RD5,     RD6,                    \
-TG_RED,  CMB_SPC, CMB_DOT, CMB_ALT, TG_RED \
+             RU1,     RU2,     RU3,       RU4,     RU5,     AG_MINS, \
+             RH1,     RH2,     RH3,       RH4,     RH5,         RH6,                    \
+_______,     RD1,     RD2,     RD3,       RD4,     RD5,         RD6,                    \
+TT_RED,  CMB_SPC, CMB_DOT, CMB_ALT, TT_GREEN \
       ), \
       \
-      /*-------------------------------------------------------------------------*/ \
+      /*-----------------------------------------------------------------*/ \
       [L_SHIFT] = MY_layout(/* LEFT HALF */ \
-        _______, _______, _______, _______, _______, _______, \
+        _______, AG_7, AG_5, AG_3, AG_1, AG_9, \
         _______, SLU1,    SLU2,    SLU3,    SLU4,    SLU5,     \
         _______, SLH1,    SLH2,    SLH3,    SLH4,    SLH5,     \
         _______,    SLD1,    SLD2,    SLD3,    SLD4,    SLD5, _______,\
                        _______, _______, _______, _______, _______,\
         \
         /* RIGHT HALF */ \
-        _______, _______, AG_COMM, _______, _______, CT_Y, \
-         SRU1,    SRU2,    SRU3,    SRU4,    SRU5,    _______, \
+         AG_0,    AG_2,    AG_4,    AG_6,    AG_8,    CT_Y, \
+         SRU1,    SRU2,    SRU3,    SRU4,    SRU5,    EN_TILD, \
          SRH1,    SRH2,    SRH3,    SRH4,    SRH5,    SRH6, \
  _______, SRD1,    SRD2,    SRD3,    SRD4,    SRD5,    SRD6, \
- _______, _______, _______, _______, _______\
+ _______, _______, AG_COMM, _______, _______\
       ),
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -196,18 +198,34 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [L_RED] = MY_layout(
         // LEFT HALF
-        TG_RED,     KC_F7,     KC_F5, KC_F1,     KC_F1, KC_F9,
+         TG_RED,      KC_F7,   KC_F5,   KC_F1,   KC_F1,   KC_F9,
         _______,    KC_HOME, KC_PGDN, KC_PGUP,  KC_END, _______,
-        _______,    KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, _______,
-        _______,    CT_LEFT, CT_DOWN, CT_UP,   CT_RGHT, _______, _______,
+        _______,    KC_LEFT, KC_DOWN,   KC_UP, KC_RGHT, _______,
+        _______,    CT_LEFT, CT_DOWN,   CT_UP, CT_RGHT, _______, _______,
                              _______, _______, _______, _______, _______,
 
-                // RIGHT HALF
-                KC_F10,  KC_F2,   KC_F4,   KC_F6,   KC_F8, _______,
-                CMB_RB2, CMB_RB1, CMB_LB1, CMB_LB2, _______, _______,
-                CMB_LB4, CMB_LB3, CMB_RB3, CMB_RB4, _______, _______,
-            _______, KC_TAB,  _______, _______, _______, _______, _______,
-            _______, _______, _______, _______, _______
+        // RIGHT HALF
+                  KC_F10,   KC_F2,   KC_F4,   KC_F6,   KC_F8, _______,
+                 CMB_RB2, CMB_RB1, CMB_LB1, CMB_LB2, _______, _______,
+                 CMB_LB4, CMB_LB3, CMB_RB3, CMB_RB4, _______, _______,
+        _______,  KC_TAB, _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______
+        ),
+
+    [L_GREEN] = MY_layout(
+        // LEFT HALF
+         TG_RED,   KC_F7,   KC_F5,   KC_F1,   KC_F1,   KC_F9,
+        _______, KC_HOME, KC_PGDN, KC_PGUP,  KC_END, _______,
+        _______, KC_LEFT, KC_DOWN,   KC_UP, KC_RGHT, _______,
+        _______, CT_LEFT, CT_DOWN,   CT_UP, CT_RGHT, _______, _______,
+                          _______, _______, _______, _______, _______,
+
+        // RIGHT HALF
+                  KC_F10,   KC_F2,   KC_F4,   KC_F6,   KC_F8, _______,
+                 CMB_RB2, CMB_RB1, CMB_LB1, CMB_LB2, _______, _______,
+                 CMB_LB4, CMB_LB3, CMB_RB3, CMB_RB4, _______, _______,
+        _______,  KC_TAB, _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______
         ),
 
 };
@@ -224,17 +242,29 @@ const rgblight_segment_t PROGMEM red_layer[] = RGBLIGHT_LAYER_SEGMENTS(
     {0, RGBLED_NUM, HSV_RED}
 );
 
+const rgblight_segment_t PROGMEM green_layer[] = RGBLIGHT_LAYER_SEGMENTS(
+    {0, RGBLED_NUM, HSV_GREEN}
+);
+
 const rgblight_segment_t* const PROGMEM my_rgb_layers[] = RGBLIGHT_LAYERS_LIST(
     en_layer,
     en_layer,
     ru_layer,
     ru_layer,
-    red_layer
+    red_layer,
+    green_layer
 );
 
+//const ComboWithKeycode combos[] PROGMEM = {
+//    // Left Index
+//    CHORD(TG_GREEN,    /* <- */ CMB_TEST)
+//};
+
+//const uint8_t combos_size = sizeof(combos)/sizeof(ComboWithKeycode);
 const uint16_t tt_keys[][3] = {
 //   { TT_CTJ, CT_J,  CT_BSLS }, // Убийство программы, если нажать три раза, то выдаёт Ctrl+\, что убивает безоговорочно.
     { TT_RED,  MO_RED,  TG_RED },
+    { TT_GREEN,  MO_GREEN,  TG_GREEN },
 //    { TT_GREN, MO_GREN, TG_GREN },
 //    { TT_VIOL, MO_VIOL, TG_VIOL },
 //    { TT_GRAY, MO_GRAY, TG_GRAY },
@@ -251,6 +281,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     rgblight_set_layer_state(2, layer_state_cmp(state, L_RU));
     rgblight_set_layer_state(3, layer_state_cmp(state, L_RU_S));
     rgblight_set_layer_state(4, layer_state_cmp(state, L_RED));
+    rgblight_set_layer_state(5, layer_state_cmp(state, L_GREEN));
     return state;
 }
 
@@ -353,9 +384,8 @@ bool oled_task_user(void) {
 #endif
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-//    if (!combo_process_record(key, record))
+//    if (!combo_process_record(keycode, record))
 //        return false;
-//}
     if (!tt_process_record(keycode, record))
         return false;
     if (!lang_shift_process_record(keycode, record))
@@ -383,13 +413,14 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
     }
     return true;
 }
+
+
+#endif
 void user_timer(void) {
-//#combo_user_timer();
+//    combo_user_timer();
     lang_shift_user_timer();
 }
 
 void matrix_scan_user(void) {
     user_timer();
 }
-
-#endif
