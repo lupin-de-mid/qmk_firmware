@@ -5,7 +5,7 @@ see https://docs.qmk.fm/#/feature_split_keyboard?id=setting-handedness
 for more options.
 */
 
-#define LANG_CHANGE_DEFAULT LANG_CHANGE_WIN_SPACE
+#define LANG_CHANGE_DEFAULT LANG_CHANGE_SHIFT_ALT
 
 #undef ENCODER_RESOLUTION
 #define ENCODER_RESOLUTION 4
