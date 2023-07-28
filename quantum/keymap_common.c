@@ -148,6 +148,10 @@ action_t action_for_keycode(uint16_t keycode) {
 
 // translates key to keycode
 __attribute__((weak)) uint16_t keymap_key_to_keycode(uint8_t layer, keypos_t key) {
+    if (key.use_custom_keycode) {
+        return key.custom_keycode;
+    }
+
     if (key.row < MATRIX_ROWS && key.col < MATRIX_COLS) {
         return pgm_read_word(&keymaps[layer][key.row][key.col]);
     }
