@@ -21,21 +21,21 @@ bool process_my_hotkeys(uint16_t keycode, keyrecord_t *record) {
         case CT_Y:
             if (record->event.pressed) {
                 shift_activate(0);
-                register_code(KC_LCTRL);
+                register_code(KC_LEFT_CTRL);
                 register_code(KC_Y);
             } else {
                 unregister_code(KC_Y);
-                unregister_code(KC_LCTRL);
+                unregister_code(KC_LEFT_CTRL);
             }
             return false;
         case CT_Z:
             if (record->event.pressed) {
                 shift_activate(0);
-                register_code(KC_LCTRL);
+                register_code(KC_LEFT_CTRL);
                 register_code(KC_Z);
             } else {
                 unregister_code(KC_Z);
-                unregister_code(KC_LCTRL);
+                unregister_code(KC_LEFT_CTRL);
             }
             return false;
     }
